@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-display: "Archivo", sans-serif;
+  --font-sans: "Manrope", sans-serif;
+  --font-mono: "Space Mono", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,29 +62,43 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-system-red: var(--system-red);
+  --color-system-cyan: var(--system-cyan);
+  --color-system-lime: var(--system-lime);
+  --color-system-yellow: var(--system-yellow);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+  --shadow-glow: 0 0 28px color-mix(in oklab, var(--primary) 32%, transparent);
+  --shadow-panel: 0 28px 90px oklch(0 0 0 / 55%);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 0.5rem;
+  --background: oklch(0.125 0.012 255);
+  --foreground: oklch(0.96 0.01 100);
+  --card: oklch(0.17 0.014 255);
+  --card-foreground: oklch(0.96 0.01 100);
+  --popover: oklch(0.17 0.014 255);
+  --popover-foreground: oklch(0.96 0.01 100);
+  --primary: oklch(0.86 0.2 128);
+  --primary-foreground: oklch(0.13 0.02 255);
+  --secondary: oklch(0.21 0.016 255);
+  --secondary-foreground: oklch(0.96 0.01 100);
+  --muted: oklch(0.22 0.014 255);
+  --muted-foreground: oklch(0.68 0.018 255);
+  --accent: oklch(0.24 0.02 255);
+  --accent-foreground: oklch(0.96 0.01 100);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.3 0.018 255);
+  --input: oklch(0.3 0.018 255);
+  --ring: oklch(0.86 0.2 128);
+  --system-red: oklch(0.67 0.24 25);
+  --system-cyan: oklch(0.78 0.15 205);
+  --system-lime: oklch(0.86 0.2 128);
+  --system-yellow: oklch(0.88 0.18 90);
+  --hero-foreground: oklch(0.99 0 0);
+  --hero-muted: oklch(0.86 0.01 250);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +157,123 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    overflow-x: hidden;
   }
+
+  *:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+}
+
+@utility tv-shell {
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 1fr);
+}
+
+@utility tv-sidebar {
+  position: fixed;
+  inset-block: 0;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  width: 15.5rem;
+  flex-direction: column;
+  border-right: 1px solid var(--color-border);
+  background: color-mix(in oklab, var(--color-background) 95%, transparent);
+  padding: 1.75rem 1rem;
+  backdrop-filter: blur(18px);
+}
+
+@utility tv-main {
+  grid-column: 2;
+  min-width: 0;
+  overflow: hidden;
+}
+
+@utility hero-game {
+  position: relative;
+  min-height: 32rem;
+  overflow: hidden;
+  border-block: 1px solid var(--color-border);
+}
+
+@utility hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--color-background) 0%, oklch(0.125 0.012 255 / 82%) 40%, oklch(0.125 0.012 255 / 6%) 78%), linear-gradient(0deg, var(--color-background) 0%, transparent 45%);
+}
+
+@utility game-card {
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  &:hover, &:focus-visible { transform: translateY(-5px); border-color: var(--color-primary); background: var(--color-card); }
+}
+
+@utility search-field {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  padding-inline: 1rem;
+  box-shadow: var(--shadow-glow);
+}
+
+@utility tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+@utility keycap {
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  background: var(--color-secondary);
+  padding: 0.2rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+@utility code-cell {
+  display: grid;
+  min-width: 3.25rem;
+  aspect-ratio: 0.82;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 767px) {
+  .tv-shell { display: block; padding-bottom: 5.25rem; }
+  .tv-main { display: block; }
+  .tv-sidebar { inset: auto 0 0; width: 100%; height: 5.25rem; flex-direction: row; align-items: center; border-top: 1px solid var(--color-border); border-right: 0; padding: 0.6rem; }
+  .tv-sidebar > div:first-child, .tv-sidebar > div:last-child { display: none; }
+  .tv-sidebar nav { margin: 0; flex-direction: row; justify-content: space-around; }
+  .tv-sidebar nav button { width: auto; min-width: 4.2rem; height: 4rem; flex-direction: column; gap: 0.2rem; padding: 0.25rem 0.4rem; font-size: 0.7rem; }
+  .hero-game { min-height: 35rem; }
+  .hero-shade { background: linear-gradient(0deg, var(--color-background) 0%, oklch(0.125 0.012 255 / 72%) 55%, oklch(0.125 0.012 255 / 18%) 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
